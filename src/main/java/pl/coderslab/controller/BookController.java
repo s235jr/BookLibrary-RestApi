@@ -15,12 +15,6 @@ public class BookController {
     @Autowired
     MemoryBookService memoryBookService;
 
-    @RequestMapping("/helloBook")
-    public Book helloBook()
-    {
-        return new Book(1L, "9788324631766", "Thinking in Java", "Bruce Eckel", "Helion", "programming");
-    }
-
     @RequestMapping("")
     public List<Book> showBooks() {
         return memoryBookService.getBookList();
@@ -40,12 +34,22 @@ public class BookController {
 
     @PostMapping("/")
     public void addBook(@RequestBody Book book){
-        System.out.println("To książka która przychodzi z jsona" + book.toString());
         String isbn = book.getIsbn();
         String title = book.getTitle();
         String publisher = book.getPublisher();
         String type = book.getType();
         String author = book.getAuthor();
         memoryBookService.addBook(isbn, title, author, publisher, type);
+    }
+
+    @PutMapping("/{id}")
+    public void editBook(@PathVariable long id, @RequestBody Book book) {
+        Book bookToEdit = memoryBookService.getBook(id);
+        bookToEdit.setTitle(book.getTitle());
+        bookToEdit.setAuthor(book.getAuthor());
+        bookToEdit.setPublisher(book.getPublisher());
+        bookToEdit.setType(book.getType());
+        bookToEdit.setIsbn(book.getIsbn());
+
     }
 }

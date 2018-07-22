@@ -16,5 +16,4 @@ public class AppConfig extends WebMvcConfigurerAdapter {
                 .addResourceHandler("/resources/**")
                 .addResourceLocations("/resources/");
     }
-
 }
